@@ -10,6 +10,7 @@ public class Stuffing extends Component {
 	private static HashMap<String, Integer> requiredComponents;
 	private static boolean initialized = false;
 	public static final String NAME = "Stuffing";
+	private static final int assemblyTime = 200;
 
 	public Stuffing() {
 		// TODO Auto-generated constructor stub
@@ -37,4 +38,8 @@ public class Stuffing extends Component {
 		return NAME;
 	}
 
+	@Override
+	public int getAssemblyTime() {
+		return assemblyTime;
+	}
 }

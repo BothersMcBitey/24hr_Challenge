@@ -9,4 +9,10 @@ public abstract class Component {
 	public abstract HashMap<String, Integer> getRequiredComponents();
 	
 	public abstract String getName();
+	
+	/**
+	 * in milis
+	 * @return
+	 */
+	public abstract int getAssemblyTime();
 }
