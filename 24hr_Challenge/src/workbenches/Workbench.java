@@ -2,11 +2,13 @@ package workbenches;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 import components.Component;
+import main.Conveyor;
 import main.Entity;
 
 public abstract class Workbench extends Entity{
@@ -105,11 +107,22 @@ public abstract class Workbench extends Entity{
 		if(!assembling){
 			g.setColor(Color.RED);
 		} else {
-			float prog = (float) timeAssembling / (float) product.getAssemblyTime();
-			int ColorOffset = (int) (prog*255);
-			g.setColor(new Color(255 - (ColorOffset), ColorOffset , 0, 255));
+			if(timeAssembling >= product.getAssemblyTime()){
+				g.setColor(Color.GREEN);
+			} else {
+				float prog = (float) timeAssembling / (float) product.getAssemblyTime();
+				int ColorOffset = 2*(int) (prog*255);
+	//			System.out.println(ColorOffset);
+				if(prog <= 0.5){
+					g.setColor(new Color(255 , ColorOffset , 0, 255));
+				} else {
+					g.setColor(new Color(255 - (ColorOffset % 255) , 255 , 0, 255));
+				}
+			}
 		}
 		g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(Color.BLACK);
+		g.drawRect(0, 0, getWidth()-1, getHeight()-1);
 		g.dispose();
 	}
 	
@@ -117,8 +130,9 @@ public abstract class Workbench extends Entity{
 		this.product = product;
 	}
 	
-	public void addOutputTarget(Workbench target){
+	public Conveyor addOutputTarget(Workbench target){
 		outputTargets.add(target);
+		return new Conveyor(this, target);
 	}
 	
 	public boolean isAssembling(){
@@ -131,5 +145,14 @@ public abstract class Workbench extends Entity{
 			count += storedComponents.get(s);
 		}
 		return count;
+	}
+	
+	@Override
+	public String getName(){
+		return benchID;
+	}
+
+	public Point getCenter() {
+		return new Point(getX() + getWidth()/2, getY() + getHeight()/2);
 	}
 }

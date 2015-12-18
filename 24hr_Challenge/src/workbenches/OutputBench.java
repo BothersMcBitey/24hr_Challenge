@@ -49,6 +49,8 @@ public class OutputBench extends Workbench {
 		if(ticksSinceUpdate >= 50){
 			inputSinceUpdate = 0;
 		}
+		g.setColor(Color.BLACK);
+		g.drawRect(0, 0, getWidth()-1, getHeight()-1);
 	}
 
 	public int getScore() {
