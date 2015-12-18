@@ -2,7 +2,17 @@ package components;
 
 import java.util.HashMap;
 
-public abstract class Component {
+import main.Entity;
+
+public abstract class Component{
+
+	public Component(String name, int x, int y, int width, int height) {
+//		super(name, x, y, width, height);
+	}
+	
+	public Component(){
+		
+	}
 
 	public abstract void initializeComponent();
 	

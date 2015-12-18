@@ -1,12 +1,15 @@
 package workbenches;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 import components.Component;
+import main.Entity;
 
-public abstract class Workbench {
+public abstract class Workbench extends Entity{
 
 	private static int benchCount = 0;
 	private String benchID;
@@ -20,7 +23,8 @@ public abstract class Workbench {
 	
 	protected ArrayList<Workbench> outputTargets;
 	
-	public Workbench(){
+	public Workbench(String name, int x, int y, int width, int height){
+		super(name, x, y, width, height);
 		benchCount++;
 		benchID = "wb" + benchCount;
 		storedComponents = new HashMap<>();
@@ -93,6 +97,20 @@ public abstract class Workbench {
 			throw new BenchFullException();
 		}
 		System.out.println(benchID + " receiving " + component.getName());
+	}
+	
+	@Override
+	public void updateGraphics() {
+		Graphics2D g = img.createGraphics();
+		if(!assembling){
+			g.setColor(Color.RED);
+		} else {
+			float prog = (float) timeAssembling / (float) product.getAssemblyTime();
+			int ColorOffset = (int) (prog*255);
+			g.setColor(new Color(255 - (ColorOffset), ColorOffset , 0, 255));
+		}
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.dispose();
 	}
 	
 	public void setProduct(Component product){
